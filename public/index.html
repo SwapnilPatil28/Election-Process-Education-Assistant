@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Democracy Guide | Immersive Election Platform</title>
     
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Core Application Styles -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -21,12 +18,10 @@
 </head>
 <body>
 
-    <!-- Dynamic Background Elements for Glassmorphism -->
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
     <div class="bg-orb orb-3"></div>
 
-    <!-- Navigation Bar -->
     <nav class="navbar glass">
         <div class="logo">
             <i class="fa-solid fa-cube logo-icon"></i>
@@ -45,7 +40,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section with 3D Canvas -->
     <section id="hero" class="section hero">
         <div class="hero-content">
             <div class="badge" data-i18n="hero-badge">Next Gen Education 🚀</div>
@@ -57,11 +51,10 @@
             </div>
         </div>
         <div class="hero-visual" id="canvas-container">
-            <!-- ThreeJS Ballot Box renders here -->
+            <!-- 3d canvas goes here -->
         </div>
     </section>
 
-    <!-- Animated Timeline Visualizer -->
     <section id="timeline" class="section timeline-section">
         <h2 class="section-title" data-i18n="tl-title">The Election <span class="gradient-text">Timeline</span></h2>
         <p class="section-desc" data-i18n="tl-desc">Scroll to unveil the democratic process step-by-step.</p>
@@ -111,7 +104,6 @@
         </div>
     </section>
 
-    <!-- Voter Journey Simulator -->
     <section id="journey" class="section journey-section">
         <h2 class="section-title" data-i18n="jr-title">Your Voter <span class="gradient-text">Journey</span></h2>
         <div class="journey-cards">
@@ -136,7 +128,6 @@
         </div>
     </section>
 
-    <!-- Enhanced AI Assistant -->
     <section id="ai-assistant" class="section ai-section">
         <div class="chat-wrapper glass">
             <aside class="chat-sidebar">
@@ -161,7 +152,6 @@
                     <span class="status-indicator" data-i18n="online"><span class="dot pulse"></span> Online</span>
                 </div>
                 <div id="chat-history" class="chat-history scroll-custom">
-                    <!-- Dynamic Messages -->
                     <div class="message assistant-message slide-up" id="welcome-message-bubble">
                         <div class="avatar"><i class="fa-solid fa-robot"></i></div>
                         <div class="msg-content" data-i18n="ai-welcome">Welcome! I am your AI Democracy Guide. How can I assist you with your civic journey today?</div>
@@ -182,7 +172,6 @@
         <p class="glass" data-i18n="footer-text">Built with Google Gemini AI & GSAP &bull; Strictly Non-Partisan &bull; 2026</p>
     </footer>
 
-    <!-- App Logic -->
     <script src="script.js"></script>
 </body>
 </html>

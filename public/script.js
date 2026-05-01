@@ -1,11 +1,10 @@
-// Application State
+// global state
 const state = {
     history: [],
     theme: 'dark',
     language: 'en'
 };
 
-// Initialize Everything 
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     initLanguageToggle();
@@ -14,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initChatbot();
     initVoiceInput();
     
-    // Smooth scrolling for navigation
+    // handle smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -23,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// --- Theme Management ---
 function initThemeToggle() {
     const toggleBtn = document.getElementById('theme-toggle');
     const htmlEl = document.documentElement;
@@ -43,7 +41,6 @@ function initThemeToggle() {
     });
 }
 
-// --- Language & Translation Management ---
 function initLanguageToggle() {
     const toggleBtn = document.getElementById('lang-toggle');
     
@@ -54,15 +51,14 @@ function initLanguageToggle() {
 }
 
 function applyTranslations() {
-    // Determine target translation map based on current state
+    // get strings from i18n
     const t = translations[state.language];
     if (!t) return;
 
-    // Direct element references needing placeholder or title updates
     const userInput = document.getElementById('user-input');
     const toggleBtn = document.getElementById('lang-toggle');
 
-    // Update all static UI Elements featuring `data-i18n` attribute
+    // swap out text for anything with a data-i18n attr
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (t[key]) {
@@ -70,11 +66,10 @@ function applyTranslations() {
         }
     });
 
-    // Apply specific localized placeholders / ARIA metadata
     userInput.placeholder = t['ai-placeholder'];
     toggleBtn.title = state.language === 'hi' ? 'Switch to English' : 'Switch Language (ENG | HI)';
 
-    // Visual feedback for the active toggle button
+    // light up toggle btn if hindi is active
     if (state.language === 'hi') {
         toggleBtn.classList.add('active-lang');
         toggleBtn.style.color = '#3b82f6'; 
@@ -84,12 +79,10 @@ function applyTranslations() {
     }
 }
 
-// --- Voice Recognition (Web Speech API) ---
 function initVoiceInput() {
     const micBtn = document.querySelector('.mic-btn');
     const userInput = document.getElementById('user-input');
     
-    // Check for browser support
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
     if (SpeechRecognition) {
@@ -98,13 +91,10 @@ function initVoiceInput() {
         recognition.interimResults = false;
         
         micBtn.addEventListener('click', () => {
-            // Abort current recording or toggle it off? Let's just start for now
-            // Or maybe check if already recognizing
-            
-            // Respect the language toggle state dynamically for speech processing
+            // grab correct locale
             recognition.lang = state.language === 'en' ? 'en-US' : 'hi-IN';
             
-            micBtn.style.color = '#ef4444'; // Red color indicating recording
+            micBtn.style.color = '#ef4444'; // show it's recording
             micBtn.style.animation = 'pulsing 1.5s infinite'; 
             recognition.start();
         });
@@ -135,21 +125,20 @@ function initVoiceInput() {
         }
         
     } else {
-        micBtn.style.display = 'none'; // Hide if browser doesn't support Web Speech API
+        micBtn.style.display = 'none'; // rip, no speech recognition
         console.warn('Speech Recognition not supported in this browser.');
     }
 }
 
-// --- GSAP Scroll Animations ---
 function initGSAPAnimations() {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero Timeline
+    // hero fade in
     gsap.from('.hero-content h1', { duration: 1, y: 50, opacity: 0, ease: 'power3.out' });
     gsap.from('.hero-subtitle', { duration: 1, y: 50, opacity: 0, delay: 0.2, ease: 'power3.out' });
     gsap.from('.hero-ctas', { duration: 1, y: 50, opacity: 0, delay: 0.4, ease: 'power3.out' });
 
-    // Timeline Visualization
+    // animate the middle timeline line when scrolling
     gsap.to('.timeline-line', {
         scrollTrigger: {
             trigger: '.timeline-section',
@@ -245,11 +234,11 @@ function initThreeJS() {
     const animate = function () {
         requestAnimationFrame(animate);
         
-        // Gentle auto rotation
+        // slow spin
         cube.rotation.x += 0.005;
         cube.rotation.y += 0.005;
         
-        // Reactive mouse rotation
+        // respond to mouse
         cube.rotation.x += (mouseY * 0.5 - cube.rotation.x) * 0.05;
         cube.rotation.y += (mouseX * 0.5 - cube.rotation.y) * 0.05;
 
@@ -265,7 +254,6 @@ function initThreeJS() {
     });
 }
 
-// --- Enhanced Chatbot Logic ---
 function initChatbot() {
     const chatForm = document.getElementById('chat-form');
     const userInput = document.getElementById('user-input');
@@ -273,10 +261,9 @@ function initChatbot() {
     const tagBtns = document.querySelectorAll('.tag-btn');
     const clearBtn = document.getElementById('clear-chat');
     
-    // Initialize marked options safely
     marked.setOptions({ breaks: true, gfm: true });
 
-    // Presets from sidebar
+    // sidebar quick actions
     tagBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const prompt = btn.getAttribute('data-preset');
@@ -285,7 +272,6 @@ function initChatbot() {
         });
     });
 
-    // Clear Chat
     clearBtn.addEventListener('click', () => {
         state.history = [];
         chatHistory.innerHTML = `

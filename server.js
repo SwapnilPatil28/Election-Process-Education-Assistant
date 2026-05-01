@@ -13,21 +13,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Security and Parsers
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize Google Gemini API
-// Make sure to set GEMINI_API_KEY in your .env file
+// setup gemini, needs env var
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || 'MISSING_KEY' });
 
-// System prompt for the Election Assistant
+// base prompt
 const SYSTEM_PROMPT = `You are an Election Process Education Assistant.
 Your goal is to help users understand the election process, voting timelines, and steps in an interactive, non-partisan, and easy-to-follow way.
 Provide clear, concise, and structured answers. Use simple language. Address questions about registration, polling stations, mail-in ballots, and general democratic processes. Do not express political opinions or endorse candidates.`;
 
-// API Endpoint for Chat
 app.post('/api/chat', async (req, res) => {
     try {
         const { message, history, language } = req.body;
@@ -36,7 +33,7 @@ app.post('/api/chat', async (req, res) => {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        // Format history for Gemini
+        // remap chat history so gemini undestands it
         const formattedHistory = (history || []).map(msg => ({
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msg.text }]
@@ -47,7 +44,7 @@ app.post('/api/chat', async (req, res) => {
             activePrompt += "\n\nIMPORTANT: The user has switched the platform language to Hindi. You MUST respond completely in Hindi (Devanagari script) from now on.";
         }
 
-        // Execute Gemini API Call to the new preview model
+        // call gemini
         const response = await ai.models.generateContent({
             model: 'gemini-3-flash-preview',
             contents: [
@@ -72,7 +69,6 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-// For testing purposes
 export default app;
 
 if (process.env.NODE_ENV !== 'test') {
