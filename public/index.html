@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Democracy Guide | Immersive Election Platform</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Core Application Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="i18n.js"></script>
+</head>
+<body>
+
+    <!-- Dynamic Background Elements for Glassmorphism -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar glass">
+        <div class="logo">
+            <i class="fa-solid fa-cube logo-icon"></i>
+            <span>Democracy<b>Guide</b></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#hero" data-i18n="nav-home">Home</a></li>
+            <li><a href="#timeline" data-i18n="nav-timeline">Timeline</a></li>
+            <li><a href="#journey" data-i18n="nav-journey">Journey</a></li>
+            <li><a href="#ai-assistant" data-i18n="nav-assistant">Assistant</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="lang-toggle" class="icon-btn" aria-label="Toggle Language" title="Switch Language (ENG | HI)"><i class="fa-solid fa-language"></i></button>
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+            <button class="btn btn-primary" onclick="document.getElementById('ai-assistant').scrollIntoView();" data-i18n="btn-ask-ai">Ask AI</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Canvas -->
+    <section id="hero" class="section hero">
+        <div class="hero-content">
+            <div class="badge" data-i18n="hero-badge">Next Gen Education 🚀</div>
+            <h1 class="hero-title" data-i18n="hero-title">Understand Elections Like <span class="gradient-text">Never Before</span></h1>
+            <p class="hero-subtitle" data-i18n="hero-sub">Step into a fully immersive, animated guide to democracy. Navigate timelines, simulate the voter journey, and talk to our intelligent election AI.</p>
+            <div class="hero-ctas">
+                <button class="btn btn-primary btn-lg" onclick="document.getElementById('timeline').scrollIntoView();" data-i18n="btn-start">Start Journey <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn btn-outline btn-lg" onclick="document.getElementById('ai-assistant').scrollIntoView();" data-i18n="btn-try">Try Smart Assistant</button>
+            </div>
+        </div>
+        <div class="hero-visual" id="canvas-container">
+            <!-- ThreeJS Ballot Box renders here -->
+        </div>
+    </section>
+
+    <!-- Animated Timeline Visualizer -->
+    <section id="timeline" class="section timeline-section">
+        <h2 class="section-title" data-i18n="tl-title">The Election <span class="gradient-text">Timeline</span></h2>
+        <p class="section-desc" data-i18n="tl-desc">Scroll to unveil the democratic process step-by-step.</p>
+        
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-node left">
+                <div class="node-content glass">
+                    <div class="node-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    <h3 data-i18n="tl-1-t">1. The Announcement</h3>
+                    <p data-i18n="tl-1-d">The election commission officially declares the dates, marking the beginning of the electoral process.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-node right">
+                <div class="node-content glass">
+                    <div class="node-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                    <h3 data-i18n="tl-2-t">2. Registration Drives</h3>
+                    <p data-i18n="tl-2-d">Eligible citizens register to vote. Verification and electoral roll updates happen here.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-node left">
+                <div class="node-content glass">
+                    <div class="node-icon"><i class="fa-solid fa-people-group"></i></div>
+                    <h3 data-i18n="tl-3-t">3. Campaigns & Rallies</h3>
+                    <p data-i18n="tl-3-d">Candidates present their manifestos and engage with voters to seek their mandate.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-node right">
+                <div class="node-content glass">
+                    <div class="node-icon"><i class="fa-solid fa-check-to-slot"></i></div>
+                    <h3 data-i18n="tl-4-t">4. Election Day</h3>
+                    <p data-i18n="tl-4-d">Voters step into polling booths to cast their ballots securely and anonymously.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-node left">
+                <div class="node-content glass">
+                    <div class="node-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                    <h3 data-i18n="tl-5-t">5. Counting & Results</h3>
+                    <p data-i18n="tl-5-d">Votes are tabulated under strict security, and the winners are declared.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voter Journey Simulator -->
+    <section id="journey" class="section journey-section">
+        <h2 class="section-title" data-i18n="jr-title">Your Voter <span class="gradient-text">Journey</span></h2>
+        <div class="journey-cards">
+            <div class="card glass interactive">
+                <div class="card-step">01</div>
+                <div class="card-icon"><i class="fa-solid fa-id-card"></i></div>
+                <h3 data-i18n="jr-1-t">Verify Status</h3>
+                <p data-i18n="jr-1-d">Ensure you are eligible and registered with a valid ID.</p>
+            </div>
+            <div class="card glass interactive">
+                <div class="card-step">02</div>
+                <div class="card-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                <h3 data-i18n="jr-2-t">Find Booth</h3>
+                <p data-i18n="jr-2-d">Locate your designated polling station well beforehand.</p>
+            </div>
+            <div class="card glass interactive">
+                <div class="card-step">03</div>
+                <div class="card-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                <h3 data-i18n="jr-3-t">Cast Vote</h3>
+                <p data-i18n="jr-3-d">Present ID, receive ballot, and exercise your right securely.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced AI Assistant -->
+    <section id="ai-assistant" class="section ai-section">
+        <div class="chat-wrapper glass">
+            <aside class="chat-sidebar">
+                <div class="chat-sidebar-header">
+                    <h3 data-i18n="ai-head"><i class="fa-solid fa-robot"></i> Smart Assistant</h3>
+                </div>
+                <div class="onboarding-guide">
+                    <p data-i18n="ai-personalize"><strong>Let's Personalize!</strong><br>Tell me a bit about yourself so I can help better:</p>
+                    <div class="tags">
+                        <button class="tag-btn" data-preset="I am a first-time voter. Guide me on how to register and vote." data-i18n="tag-1">First-time Voter 🎓</button>
+                        <button class="tag-btn" data-preset="I am an overseas or mail-in voter." data-i18n="tag-2">Absentee / Mail-in ✉️</button>
+                        <button class="tag-btn" data-preset="I'm interested in how the counting process works." data-i18n="tag-3">Process Observer 🔍</button>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <button class="btn btn-outline full-width" id="clear-chat" data-i18n="clear-btn"><i class="fa-solid fa-broom"></i> Clear Chat</button>
+                </div>
+            </aside>
+            <main class="chat-main">
+                <div class="chat-header">
+                    <h4 data-i18n="chat-title">Democracy AI Guide</h4>
+                    <span class="status-indicator" data-i18n="online"><span class="dot pulse"></span> Online</span>
+                </div>
+                <div id="chat-history" class="chat-history scroll-custom">
+                    <!-- Dynamic Messages -->
+                    <div class="message assistant-message slide-up" id="welcome-message-bubble">
+                        <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+                        <div class="msg-content" data-i18n="ai-welcome">Welcome! I am your AI Democracy Guide. How can I assist you with your civic journey today?</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <form id="chat-form" class="chat-form">
+                        <input type="text" id="user-input" placeholder="Type your question here..." required autocomplete="off">
+                        <button type="button" class="icon-btn mic-btn" title="Voice Input (Speech-to-Text)"><i class="fa-solid fa-microphone"></i></button>
+                        <button type="submit" id="send-btn" class="icon-btn send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <footer>
+        <p class="glass" data-i18n="footer-text">Built with Google Gemini AI & GSAP &bull; Strictly Non-Partisan &bull; 2026</p>
+    </footer>
+
+    <!-- App Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
